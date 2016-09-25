@@ -9,15 +9,14 @@ import android.view.ViewGroup;
 
 import com.trifork.ckp.musicartists.R;
 import com.trifork.ckp.musicartists.api.LastFmClient;
-import com.trifork.ckp.musicartists.model.ArtistListItem;
-
-import java.util.List;
+import com.trifork.ckp.musicartists.model.Artist;
+import com.trifork.ckp.musicartists.model.ArtistResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchArtistFragment extends Fragment implements Callback<List<ArtistListItem>>  {
+public class SearchArtistFragment extends Fragment implements Callback<ArtistResponse>  {
 
     public static final String TAG = SearchArtistFragment.class.getSimpleName();
 
@@ -33,7 +32,7 @@ public class SearchArtistFragment extends Fragment implements Callback<List<Arti
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Call<List<ArtistListItem>> call = new LastFmClient().getServiceApi().searchArtist("mastodon");
+        Call<ArtistResponse> call = new LastFmClient().getServiceApi().getArtist("bc5e2ad6-0a4a-4d90-b911-e9a7e6861727");
         call.enqueue(this);
     }
 
@@ -44,6 +43,21 @@ public class SearchArtistFragment extends Fragment implements Callback<List<Arti
     }
 
     @Override
+    public void onResponse(Call<ArtistResponse> call, Response<ArtistResponse> response) {
+        Log.d(TAG, "onResponse() called with: call = [" + call + "], response = [" + response + "]");
+
+        Artist a = response.body().getArtist();
+        Log.d(TAG, "artist = " + a);
+        Log.d(TAG, "url = " + call.request().url().toString());
+    }
+
+    @Override
+    public void onFailure(Call<ArtistResponse> call, Throwable t) {
+        Log.e(TAG, "onFailure() called with: call = [" + call + "], t = [" + t + "]");
+        t.printStackTrace();
+    }
+
+    /*@Override
     public void onResponse(Call<List<ArtistListItem>> call, Response<List<ArtistListItem>> response) {
         Log.d(TAG, "onResponse() called with: call = [" + call + "], response = [" + response + "]");
 
@@ -59,5 +73,5 @@ public class SearchArtistFragment extends Fragment implements Callback<List<Arti
     public void onFailure(Call<List<ArtistListItem>> call, Throwable t) {
         Log.e(TAG, "onFailure() called with: call = [" + call + "], t = [" + t + "]");
         t.printStackTrace();
-    }
+    }*/
 }

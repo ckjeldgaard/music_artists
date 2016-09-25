@@ -12,7 +12,7 @@ import okhttp3.ResponseBody;
 
 import static org.mockito.Mockito.when;
 
-public class ApiResponseInterceptorTest {
+public class SearchResponseInterceptorTest {
 
     @Mock
     private Interceptor.Chain chain;

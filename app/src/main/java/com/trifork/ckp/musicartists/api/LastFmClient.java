@@ -2,13 +2,8 @@ package com.trifork.ckp.musicartists.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.trifork.ckp.musicartists.model.ApiResponse;
-import com.trifork.ckp.musicartists.model.ArtistListItem;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -32,7 +27,7 @@ public final class LastFmClient {
                 .create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .client(interceptorClient())
+                //.client(interceptorClient())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         return retrofit.create(LastFmApi.class);

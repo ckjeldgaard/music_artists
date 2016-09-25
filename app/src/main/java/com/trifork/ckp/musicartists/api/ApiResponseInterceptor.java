@@ -2,7 +2,7 @@ package com.trifork.ckp.musicartists.api;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.trifork.ckp.musicartists.model.ApiResponse;
+import com.trifork.ckp.musicartists.model.SearchResponse;
 
 import java.io.IOException;
 
@@ -21,10 +21,10 @@ public class ApiResponseInterceptor implements Interceptor {
         Request request = chain.request();
         Response response = chain.proceed(request);
         final ResponseBody body = response.body();
-        ApiResponse apiResponse = GSON.fromJson(body.string(), ApiResponse.class);
+        SearchResponse searchResponse = GSON.fromJson(body.string(), SearchResponse.class);
         body.close();
 
-        JsonArray artists = apiResponse.getResults()
+        JsonArray artists = searchResponse.getResults()
                 .getAsJsonObject("artistmatches")
                 .getAsJsonArray("artist");
 
