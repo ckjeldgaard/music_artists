@@ -8,6 +8,7 @@ import com.trifork.ckp.musicartists.R;
 import com.trifork.ckp.musicartists.searchartist.SearchArtistFragment;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -23,6 +24,7 @@ import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFr
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 22)
+@Ignore
 public class MusicArtistsAcceptanceTests {
 
     private EditText searchField;
