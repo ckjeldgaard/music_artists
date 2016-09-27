@@ -27,7 +27,7 @@ public final class LastFmClient {
                 .create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                //.client(interceptorClient())
+                .client(interceptorClient())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         return retrofit.create(LastFmApi.class);

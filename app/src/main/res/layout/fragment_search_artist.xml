@@ -11,6 +11,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:hint="@string/search_field_hint"
+        android:layout_margin="10dp"
         />
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,6 +27,5 @@
         android:layout_below="@+id/search_artist_text"
         android:layout_alignParentStart="true"
         />
-
 
 </RelativeLayout>

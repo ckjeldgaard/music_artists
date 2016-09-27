@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Music Artists</string>
     <string name="search_field_hint">Search artists</string>
+    <string name="artist_image_content_description">Artist image</string>
 </resources>
