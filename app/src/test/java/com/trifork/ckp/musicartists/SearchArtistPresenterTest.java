@@ -1,8 +1,7 @@
 package com.trifork.ckp.musicartists;
 
 import com.trifork.ckp.musicartists.api.LastFmApi;
-import com.trifork.ckp.musicartists.model.Artist;
-import com.trifork.ckp.musicartists.model.SearchResponse;
+import com.trifork.ckp.musicartists.model.ArtistListItem;
 import com.trifork.ckp.musicartists.searchartist.SearchArtistPresenter;
 import com.trifork.ckp.musicartists.searchartist.SearchContract;
 
@@ -11,48 +10,57 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class SearchArtistPresenterTest {
 
     @Mock
-    private SearchContract.SearchArtistView searchArtistView;
+    private SearchContract.SearchArtistView view;
 
     @Mock
     private LastFmApi api;
 
+    @Mock
+    private Call<List<ArtistListItem>> call;
+
     @Captor
-    private ArgumentCaptor<Call<SearchResponse>> cb;
+    private ArgumentCaptor<Callback<List<ArtistListItem>>> callbackCaptor;
 
     private SearchArtistPresenter searchArtistPresenter;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        searchArtistPresenter = new SearchArtistPresenter(searchArtistView, api);
+        searchArtistPresenter = new SearchArtistPresenter(view, api);
     }
 
     @Test
     public void testDisplaySearchResult() throws Exception {
-        List<Artist> expectedResult = new ArrayList<Artist>() {{
-            //add(new Artist("Metallica"));
+        List<ArtistListItem> expectedResult = new ArrayList<ArtistListItem>() {{
+            add(new ArtistListItem("Band 1", "mbid1", "url1"));
+            add(new ArtistListItem("Band 2", "mbid2", "url3"));
         }};
 
-        cb.capture();
-        Mockito.verify(api).searchArtist(Mockito.anyString());
-        when(searchArtistView.searchInput()).thenReturn("metallica");
+        Response<List<ArtistListItem>> mockResponse = Response.success(expectedResult);
+        when(view.searchInput()).thenReturn("artist");
+        when(api.searchArtist(anyString())).thenReturn(call);
+        searchArtistPresenter.searchArtist();
 
-        searchArtistPresenter.searchArtist("metallica");
+        verify(call).enqueue(callbackCaptor.capture());
 
-        verify(searchArtistView).showResultList(expectedResult);
+        callbackCaptor.getValue().onResponse(call, mockResponse);
+
+        verify(view).showResultList(expectedResult);
     }
 }

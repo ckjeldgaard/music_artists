@@ -11,8 +11,6 @@ import retrofit2.Response;
 
 public class SearchArtistPresenter implements SearchContract.SearchArtistUserActions, Callback<List<ArtistListItem>> {
 
-    public static final String TAG = SearchArtistPresenter.class.getSimpleName();
-
     private final SearchContract.SearchArtistView view;
     private final LastFmApi api;
 
@@ -22,21 +20,15 @@ public class SearchArtistPresenter implements SearchContract.SearchArtistUserAct
     }
 
     @Override
-    public void searchArtist(String artist) {
-
-        Call<List<ArtistListItem>> call = this.api.searchArtist("metallica");
-        call.enqueue(this);
-
-        /*List<Artist> resultList = new ArrayList<Artist>() {{
-            add(new Artist("Metallica", ""));
-        }};
-        this.view.showResultList(resultList);*/
+    public void searchArtist() {
+        String inp = view.searchInput();
+        this.api.searchArtist(inp).enqueue(this);
     }
 
 
     @Override
     public void onResponse(Call<List<ArtistListItem>> call, Response<List<ArtistListItem>> response) {
-
+        this.view.showResultList(response.body());
     }
 
     @Override

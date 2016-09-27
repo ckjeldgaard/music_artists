@@ -1,6 +1,5 @@
 package com.trifork.ckp.musicartists.api;
 
-import com.trifork.ckp.musicartists.model.Artist;
 import com.trifork.ckp.musicartists.model.ArtistListItem;
 import com.trifork.ckp.musicartists.model.ArtistResponse;
 

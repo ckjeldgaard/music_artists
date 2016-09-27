@@ -1,16 +1,15 @@
 package com.trifork.ckp.musicartists.searchartist;
 
-
-import com.trifork.ckp.musicartists.model.Artist;
+import com.trifork.ckp.musicartists.model.ArtistListItem;
 
 import java.util.List;
 
 public interface SearchContract {
     interface SearchArtistView {
         String searchInput();
-        void showResultList(List<Artist> artists);
+        void showResultList(List<ArtistListItem> artists);
     }
     interface SearchArtistUserActions {
-        void searchArtist(String artist);
+        void searchArtist();
     }
 }
