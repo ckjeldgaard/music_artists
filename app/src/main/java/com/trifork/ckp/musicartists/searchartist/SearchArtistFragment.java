@@ -3,13 +3,19 @@ package com.trifork.ckp.musicartists.searchartist;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
+import com.trifork.ckp.musicartists.MusicArtistsApplication;
 import com.trifork.ckp.musicartists.R;
 import com.trifork.ckp.musicartists.api.LastFmClient;
+import com.trifork.ckp.musicartists.injection.DaggerSearchArtistComponent;
+import com.trifork.ckp.musicartists.injection.SearchArtistModule;
 import com.trifork.ckp.musicartists.model.ArtistListItem;
 import com.trifork.ckp.musicartists.searchartist.list.ArtistItemListener;
 import com.trifork.ckp.musicartists.searchartist.list.ArtistListPicassoImage;
@@ -18,14 +24,16 @@ import com.trifork.ckp.musicartists.searchartist.list.ArtistsAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import javax.inject.Inject;
 
-public class SearchArtistFragment extends Fragment implements Callback<List<ArtistListItem>>, ArtistItemListener {
+public class SearchArtistFragment extends Fragment implements SearchContract.SearchArtistView, ArtistItemListener {
 
     public static final String TAG = SearchArtistFragment.class.getSimpleName();
 
+    @Inject
+    SearchContract.SearchPresenter presenter;
+
+    private EditText searchArtistText;
     private RecyclerView artistsRecyclerView;
     private ArtistsAdapter adapter;
 
@@ -41,24 +49,56 @@ public class SearchArtistFragment extends Fragment implements Callback<List<Arti
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        MusicArtistsApplication app = (MusicArtistsApplication) getActivity().getApplication();
+        DaggerSearchArtistComponent.builder()
+                //.searchArtistModule(new SearchArtistModule(this, new LastFmClient().getServiceApi()))
+                .searchArtistModule(app.getSearchArtistModule(this))
+                .build().inject(this);
+
         List<ArtistListItem> items = new ArrayList<>();
-        //items.add(new ArtistListItem("Metallica", "", ""));
-        //items.add(new ArtistListItem("Mastodon", "", ""));
         adapter = new ArtistsAdapter(items, this, new ArtistListPicassoImage(getContext()));
 
-        Call<List<ArtistListItem>> call = new LastFmClient().getServiceApi().searchArtist("gojira");
-        call.enqueue(this);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        setRetainInstance(true);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_search_artist, container, false);
 
+        searchArtistText = (EditText) root.findViewById(R.id.search_artist_text);
         artistsRecyclerView = (RecyclerView) root.findViewById(R.id.list_artists);
+
+        searchArtistText.addTextChangedListener(textChangedListener());
         artistsRecyclerView.setAdapter(adapter);
 
         return root;
+    }
+
+    private TextWatcher textChangedListener() {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                presenter.searchArtist();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        };
     }
 
     @Override
@@ -67,23 +107,12 @@ public class SearchArtistFragment extends Fragment implements Callback<List<Arti
     }
 
     @Override
-    public void onResponse(Call<List<ArtistListItem>> call, Response<List<ArtistListItem>> response) {
-        Log.d(TAG, "onResponse() called with: call = [" + call + "], response = [" + response + "]");
-
-        Log.d(TAG, "artists = " + response.body());
-        Log.d(TAG, "url = " + call.request().url().toString());
-
-        for (ArtistListItem artist : response.body()) {
-            Log.d(TAG, "artist = " + artist);
-        }
-
-        adapter = new ArtistsAdapter(response.body(), this, new ArtistListPicassoImage(getContext()));
-        artistsRecyclerView.setAdapter(adapter);
+    public String searchInput() {
+        return "hallo";
     }
 
     @Override
-    public void onFailure(Call<List<ArtistListItem>> call, Throwable t) {
-        Log.e(TAG, "onFailure() called with: call = [" + call + "], t = [" + t + "]");
-        t.printStackTrace();
+    public void showResultList(List<ArtistListItem> artists) {
+
     }
 }

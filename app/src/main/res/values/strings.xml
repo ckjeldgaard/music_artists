@@ -2,4 +2,7 @@
     <string name="app_name">Music Artists</string>
     <string name="search_field_hint">Search artists</string>
     <string name="artist_image_content_description">Artist image</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

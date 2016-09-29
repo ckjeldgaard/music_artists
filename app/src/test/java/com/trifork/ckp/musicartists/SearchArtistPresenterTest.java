@@ -2,6 +2,7 @@ package com.trifork.ckp.musicartists;
 
 import com.trifork.ckp.musicartists.api.LastFmApi;
 import com.trifork.ckp.musicartists.model.ArtistListItem;
+import com.trifork.ckp.musicartists.model.Image;
 import com.trifork.ckp.musicartists.searchartist.SearchArtistPresenter;
 import com.trifork.ckp.musicartists.searchartist.SearchContract;
 
@@ -32,6 +33,9 @@ public class SearchArtistPresenterTest {
     private LastFmApi api;
 
     @Mock
+    private List<Image> images;
+
+    @Mock
     private Call<List<ArtistListItem>> call;
 
     @Captor
@@ -48,8 +52,8 @@ public class SearchArtistPresenterTest {
     @Test
     public void testDisplaySearchResult() throws Exception {
         List<ArtistListItem> expectedResult = new ArrayList<ArtistListItem>() {{
-            add(new ArtistListItem("Band 1", "mbid1", "url1"));
-            add(new ArtistListItem("Band 2", "mbid2", "url3"));
+            add(new ArtistListItem("Band 1", "mbid1", "url1", images));
+            add(new ArtistListItem("Band 2", "mbid2", "url3", images));
         }};
 
         Response<List<ArtistListItem>> mockResponse = Response.success(expectedResult);

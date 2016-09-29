@@ -9,7 +9,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchArtistPresenter implements SearchContract.SearchArtistUserActions, Callback<List<ArtistListItem>> {
+public class SearchArtistPresenter implements SearchContract.SearchPresenter, Callback<List<ArtistListItem>> {
 
     private final SearchContract.SearchArtistView view;
     private final LastFmApi api;
@@ -24,7 +24,6 @@ public class SearchArtistPresenter implements SearchContract.SearchArtistUserAct
         String inp = view.searchInput();
         this.api.searchArtist(inp).enqueue(this);
     }
-
 
     @Override
     public void onResponse(Call<List<ArtistListItem>> call, Response<List<ArtistListItem>> response) {

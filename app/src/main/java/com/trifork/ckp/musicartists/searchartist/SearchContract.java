@@ -9,7 +9,7 @@ public interface SearchContract {
         String searchInput();
         void showResultList(List<ArtistListItem> artists);
     }
-    interface SearchArtistUserActions {
+    interface SearchPresenter {
         void searchArtist();
     }
 }
