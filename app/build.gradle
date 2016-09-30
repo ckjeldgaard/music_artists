@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'pl.droidsonroids.pitest'
 
 android {
     compileSdkVersion 24
@@ -43,4 +44,12 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.0.2'
     compile 'com.google.dagger:dagger:2.0.2'
     provided 'javax.annotation:jsr250-api:1.0'
+}
+
+pitest {
+    targetClasses = ['com.trifork.ckp.musicartists.*']
+    threads = 5
+    outputFormats = ['HTML']
+    timeoutConstInMillis = 20000 // Necessary to allow Robolectric to finish. See http://pitest.org/faq/#im-seeing-a-lot-of-timeouts-whats-going-on
+    verbose = true
 }

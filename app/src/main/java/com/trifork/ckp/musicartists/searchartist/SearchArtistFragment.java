@@ -13,9 +13,7 @@ import android.widget.EditText;
 
 import com.trifork.ckp.musicartists.MusicArtistsApplication;
 import com.trifork.ckp.musicartists.R;
-import com.trifork.ckp.musicartists.api.LastFmClient;
 import com.trifork.ckp.musicartists.injection.DaggerSearchArtistComponent;
-import com.trifork.ckp.musicartists.injection.SearchArtistModule;
 import com.trifork.ckp.musicartists.model.ArtistListItem;
 import com.trifork.ckp.musicartists.searchartist.list.ArtistItemListener;
 import com.trifork.ckp.musicartists.searchartist.list.ArtistListPicassoImage;
@@ -52,7 +50,6 @@ public class SearchArtistFragment extends Fragment implements SearchContract.Sea
 
         MusicArtistsApplication app = (MusicArtistsApplication) getActivity().getApplication();
         DaggerSearchArtistComponent.builder()
-                //.searchArtistModule(new SearchArtistModule(this, new LastFmClient().getServiceApi()))
                 .searchArtistModule(app.getSearchArtistModule(this))
                 .build().inject(this);
 
@@ -91,7 +88,9 @@ public class SearchArtistFragment extends Fragment implements SearchContract.Sea
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                presenter.searchArtist();
+                if (searchArtistText.getText().length() > 0) {
+                    presenter.searchArtist();
+                }
             }
 
             @Override
@@ -108,11 +107,13 @@ public class SearchArtistFragment extends Fragment implements SearchContract.Sea
 
     @Override
     public String searchInput() {
-        return "hallo";
+        return searchArtistText.getText().toString();
     }
 
     @Override
     public void showResultList(List<ArtistListItem> artists) {
-
+        adapter = new ArtistsAdapter(artists, this, new ArtistListPicassoImage(getContext()));
+        artistsRecyclerView.setAdapter(adapter);
+        artistsRecyclerView.invalidate();
     }
 }

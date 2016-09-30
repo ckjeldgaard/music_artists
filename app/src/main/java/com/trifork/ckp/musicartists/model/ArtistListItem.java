@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public final class ArtistListItem {
+public class ArtistListItem {
 
     private final  String name;
     private final  String mbid;
