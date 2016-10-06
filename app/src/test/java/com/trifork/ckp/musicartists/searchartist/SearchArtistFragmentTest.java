@@ -9,6 +9,7 @@ import com.trifork.ckp.musicartists.TestApplication;
 import com.trifork.ckp.musicartists.model.ArtistListItem;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -91,6 +92,6 @@ public class SearchArtistFragmentTest {
 
         fragment.showResultList(artists);
 
-        assertThat(artists.size(), is(recyclerView.getChildCount()));
+        assertThat(artists.size(), is(recyclerView.getAdapter().getItemCount()));
     }
 }

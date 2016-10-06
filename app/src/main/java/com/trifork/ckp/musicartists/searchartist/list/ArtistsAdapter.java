@@ -23,6 +23,12 @@ public class ArtistsAdapter extends RecyclerView.Adapter<ArtistViewHolder> {
         this.artistImage = artistImage;
     }
 
+    public void update(List<ArtistListItem> newItems) {
+        this.items.clear();
+        this.items.addAll(newItems);
+        notifyDataSetChanged();
+    }
+
     @Override
     public ArtistViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_artistitem, parent, false);

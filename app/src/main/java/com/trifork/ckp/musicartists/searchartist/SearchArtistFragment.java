@@ -112,8 +112,9 @@ public class SearchArtistFragment extends Fragment implements SearchContract.Sea
 
     @Override
     public void showResultList(List<ArtistListItem> artists) {
-        adapter = new ArtistsAdapter(artists, this, new ArtistListPicassoImage(getContext()));
+        adapter.update(artists);
+        /*adapter = new ArtistsAdapter(artists, this, new ArtistListPicassoImage(getContext()));
         artistsRecyclerView.setAdapter(adapter);
-        artistsRecyclerView.invalidate();
+        artistsRecyclerView.invalidate();*/
     }
 }

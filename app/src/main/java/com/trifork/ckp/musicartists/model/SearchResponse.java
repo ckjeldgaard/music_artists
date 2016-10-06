@@ -14,14 +14,4 @@ public final class SearchResponse {
     public JsonObject getResults() {
         return results;
     }
-
-    /*private final SearchResult results;
-
-    public RootSearchResponse(SearchResult results) {
-        this.results = results;
-    }
-
-    public SearchResult getResults() {
-        return results;
-    }*/
 }

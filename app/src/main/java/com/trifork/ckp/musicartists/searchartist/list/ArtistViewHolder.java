@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.trifork.ckp.musicartists.R;
 
-public final class ArtistViewHolder extends RecyclerView.ViewHolder {
+public class ArtistViewHolder extends RecyclerView.ViewHolder {
     private final View itemView;
     private final ImageView imageArtist;
     private final TextView textArtist;

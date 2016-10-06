@@ -50,6 +50,6 @@ pitest {
     targetClasses = ['com.trifork.ckp.musicartists.*']
     threads = 5
     outputFormats = ['HTML']
-    timeoutConstInMillis = 20000 // Necessary to allow Robolectric to finish. See http://pitest.org/faq/#im-seeing-a-lot-of-timeouts-whats-going-on
+    timeoutConstInMillis = 30000 // Necessary to allow Robolectric to finish. See http://pitest.org/faq/#im-seeing-a-lot-of-timeouts-whats-going-on
     verbose = true
 }

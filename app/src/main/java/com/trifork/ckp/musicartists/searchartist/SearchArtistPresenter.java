@@ -1,7 +1,5 @@
 package com.trifork.ckp.musicartists.searchartist;
 
-import android.util.Log;
-
 import com.trifork.ckp.musicartists.api.LastFmApi;
 import com.trifork.ckp.musicartists.model.ArtistListItem;
 
@@ -29,7 +27,6 @@ public class SearchArtistPresenter implements SearchContract.SearchPresenter, Ca
 
     @Override
     public void onResponse(Call<List<ArtistListItem>> call, Response<List<ArtistListItem>> response) {
-        Log.d("Presenter", "onResponse() called with: call = [" + call + "], response = [" + response + "]");
         this.view.showResultList(response.body());
     }
 
