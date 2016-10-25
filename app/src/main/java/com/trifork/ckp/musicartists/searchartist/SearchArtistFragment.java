@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import com.trifork.ckp.musicartists.MusicArtistsApplication;
 import com.trifork.ckp.musicartists.R;
@@ -30,6 +31,9 @@ public class SearchArtistFragment extends Fragment implements SearchContract.Sea
 
     @Inject
     SearchContract.SearchPresenter presenter;
+
+    private View loadingView;
+    private View errorView;
 
     private EditText searchArtistText;
     private RecyclerView artistsRecyclerView;
@@ -70,12 +74,16 @@ public class SearchArtistFragment extends Fragment implements SearchContract.Sea
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_search_artist, container, false);
 
+        loadingView = root.findViewById(R.id.loadingView);
+        errorView = root.findViewById(R.id.errorView);
+
         searchArtistText = (EditText) root.findViewById(R.id.search_artist_text);
         artistsRecyclerView = (RecyclerView) root.findViewById(R.id.list_artists);
 
         searchArtistText.addTextChangedListener(textChangedListener());
         artistsRecyclerView.setAdapter(adapter);
 
+        showContent();
         return root;
     }
 
@@ -113,8 +121,26 @@ public class SearchArtistFragment extends Fragment implements SearchContract.Sea
     @Override
     public void showResultList(List<ArtistListItem> artists) {
         adapter.update(artists);
-        /*adapter = new ArtistsAdapter(artists, this, new ArtistListPicassoImage(getContext()));
-        artistsRecyclerView.setAdapter(adapter);
-        artistsRecyclerView.invalidate();*/
+    }
+
+    @Override
+    public void showLoading() {
+        artistsRecyclerView.setVisibility(View.GONE);
+        loadingView.setVisibility(View.VISIBLE);
+        errorView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showContent() {
+        artistsRecyclerView.setVisibility(View.VISIBLE);
+        loadingView.setVisibility(View.GONE);
+        errorView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showError(Throwable e) {
+        artistsRecyclerView.setVisibility(View.GONE);
+        loadingView.setVisibility(View.GONE);
+        errorView.setVisibility(View.VISIBLE);
     }
 }

@@ -1,6 +1,7 @@
 package com.trifork.ckp.musicartists.searchartist;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.EditText;
 
 import com.trifork.ckp.musicartists.BuildConfig;
@@ -9,7 +10,6 @@ import com.trifork.ckp.musicartists.TestApplication;
 import com.trifork.ckp.musicartists.model.ArtistListItem;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -93,5 +93,50 @@ public class SearchArtistFragmentTest {
         fragment.showResultList(artists);
 
         assertThat(artists.size(), is(recyclerView.getAdapter().getItemCount()));
+    }
+
+    @Test
+    public void testShowContent() throws Exception {
+        SearchArtistFragment fragment = new SearchArtistFragment();
+        startFragment(fragment);
+        RecyclerView recyclerView = (RecyclerView) fragment.getView().findViewById(R.id.list_artists);
+        View loadingView = fragment.getView().findViewById(R.id.loadingView);
+        View errorView = fragment.getView().findViewById(R.id.errorView);
+
+        fragment.showContent();
+
+        assertThat(recyclerView.getVisibility(), is(View.VISIBLE));
+        assertThat(loadingView.getVisibility(), is(View.GONE));
+        assertThat(errorView.getVisibility(), is(View.GONE));
+    }
+
+    @Test
+    public void testShowLoading() throws Exception {
+        SearchArtistFragment fragment = new SearchArtistFragment();
+        startFragment(fragment);
+        RecyclerView recyclerView = (RecyclerView) fragment.getView().findViewById(R.id.list_artists);
+        View loadingView = fragment.getView().findViewById(R.id.loadingView);
+        View errorView = fragment.getView().findViewById(R.id.errorView);
+
+        fragment.showLoading();
+
+        assertThat(recyclerView.getVisibility(), is(View.GONE));
+        assertThat(loadingView.getVisibility(), is(View.VISIBLE));
+        assertThat(errorView.getVisibility(), is(View.GONE));
+    }
+
+    @Test
+    public void testShowError() throws Exception {
+        SearchArtistFragment fragment = new SearchArtistFragment();
+        startFragment(fragment);
+        RecyclerView recyclerView = (RecyclerView) fragment.getView().findViewById(R.id.list_artists);
+        View loadingView = fragment.getView().findViewById(R.id.loadingView);
+        View errorView = fragment.getView().findViewById(R.id.errorView);
+
+        fragment.showError(mock(Throwable.class));
+
+        assertThat(recyclerView.getVisibility(), is(View.GONE));
+        assertThat(loadingView.getVisibility(), is(View.GONE));
+        assertThat(errorView.getVisibility(), is(View.VISIBLE));
     }
 }

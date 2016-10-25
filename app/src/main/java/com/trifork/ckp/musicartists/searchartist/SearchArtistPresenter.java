@@ -21,6 +21,7 @@ public class SearchArtistPresenter implements SearchContract.SearchPresenter, Ca
 
     @Override
     public void searchArtist() {
+        this.view.showLoading();
         String inp = view.searchInput();
         this.api.searchArtist(inp).enqueue(this);
     }
@@ -28,10 +29,11 @@ public class SearchArtistPresenter implements SearchContract.SearchPresenter, Ca
     @Override
     public void onResponse(Call<List<ArtistListItem>> call, Response<List<ArtistListItem>> response) {
         this.view.showResultList(response.body());
+        this.view.showContent();
     }
 
     @Override
     public void onFailure(Call<List<ArtistListItem>> call, Throwable t) {
-
+        this.view.showError(t);
     }
 }

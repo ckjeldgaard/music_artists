@@ -21,6 +21,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -61,10 +62,27 @@ public class SearchArtistPresenterTest {
         when(api.searchArtist(anyString())).thenReturn(call);
         searchArtistPresenter.searchArtist();
 
+        verify(view).showLoading();
         verify(call).enqueue(callbackCaptor.capture());
 
         callbackCaptor.getValue().onResponse(call, mockResponse);
 
         verify(view).showResultList(expectedResult);
+        verify(view).showContent();
+    }
+
+    @Test
+    public void testFailure() throws Exception {
+        Throwable throwable = mock(Throwable.class);
+
+        when(view.searchInput()).thenReturn("artist");
+        when(api.searchArtist(anyString())).thenReturn(call);
+        searchArtistPresenter.searchArtist();
+
+        verify(call).enqueue(callbackCaptor.capture());
+
+        callbackCaptor.getValue().onFailure(call, throwable);
+
+        verify(view).showError(throwable);
     }
 }
