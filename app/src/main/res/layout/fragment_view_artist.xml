@@ -71,7 +71,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="3dp"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce aliquam quam in sodales gravida. Pellentesque hendrerit pellentesque tellus, vitae volutpat nisl finibus at."
                 android:textStyle="bold"
                 android:padding="@dimen/activity_horizontal_margin"
                 />
@@ -81,7 +80,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="3dp"
-                android:text="Quisque eleifend dui sit amet nunc finibus blandit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum nulla massa, luctus in varius a, aliquet ac risus. Donec ut facilisis orci. Donec malesuada mollis purus, at laoreet leo congue a.\n\nEtiam ac fringilla urna. Nulla rutrum, erat sit amet fermentum fringilla, mi nibh vehicula orci, eu iaculis arcu arcu eu arcu. Integer lectus nulla, ultricies in arcu eget, maximus rutrum leo. Phasellus tincidunt elit vel est mattis condimentum. Morbi blandit maximus odio at maximus. Etiam dictum, libero ac volutpat molestie, urna turpis volutpat arcu, eget mollis arcu lorem vitae felis. Curabitur non ex sit amet neque congue lobortis quis quis risus. Proin tincidunt mauris vitae lectus suscipit, congue tincidunt risus egestas. Aenean consectetur sapien quam, ac fringilla magna auctor ut. Fusce posuere blandit dapibus. Maecenas finibus, odio ac volutpat tempor, lorem neque iaculis nibh, vel viverra eros nisi in leo. Nulla nec sapien id ligula rutrum tincidunt at vitae risus. Sed egestas in lorem in congue. Curabitur quis dapibus libero. Suspendisse dignissim non massa sed facilisis. Duis a velit tristique, aliquam tortor id, volutpat dui.\n\nAenean sit amet arcu mollis, aliquet massa lacinia, semper justo. Nullam scelerisque velit a convallis sagittis. Vivamus in ullamcorper turpis. Vivamus eleifend cursus felis, nec dictum nulla lobortis in. Phasellus eu turpis sit amet enim molestie vestibulum. Sed justo sapien, congue commodo convallis gravida, porta id lacus."
                 android:paddingStart="@dimen/activity_horizontal_margin"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:paddingBottom="@dimen/activity_horizontal_margin"
