@@ -13,11 +13,15 @@ public final class Artist {
     @SerializedName("image")
     private final List<Image> images;
 
-    public Artist(String name, String mbid, String url, List<Image> images) {
+    @SerializedName("bio")
+    private final Bio bio;
+
+    public Artist(String name, String mbid, String url, List<Image> images, Bio bio) {
         this.name = name;
         this.mbid = mbid;
         this.url = url;
         this.images = images;
+        this.bio = bio;
     }
 
     public String getName() {
@@ -36,26 +40,16 @@ public final class Artist {
         return images;
     }
 
-    /*
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
+    public Image getImage(ImageSize size) {
+        for (Image image : images) {
+            if (image.getSize().equals(size)) {
+                return image;
+            }
         }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Artist artist = (Artist) o;
-        return name.equals(artist.name);
+        return images.get(0);
     }
 
-    @Override
-    public int hashCode() {
-        return name.hashCode();
+    public Bio getBio() {
+        return bio;
     }
-
-    @Override
-    public String toString() {
-        return this.name;
-    }*/
 }

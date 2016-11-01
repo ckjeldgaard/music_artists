@@ -21,15 +21,18 @@ public final class LastFmClient {
     public LastFmClient() {
     }
 
-    public LastFmApi getServiceApi() {
+    public LastFmApi getServiceApi(boolean addClient) {
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                 .create();
-        Retrofit retrofit = new Retrofit.Builder()
+        Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .client(interceptorClient())
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
+                .addConverterFactory(GsonConverterFactory.create(gson));
+
+        if (addClient) {
+            builder.client(interceptorClient());
+        }
+        Retrofit retrofit = builder.build();
         return retrofit.create(LastFmApi.class);
     }
 

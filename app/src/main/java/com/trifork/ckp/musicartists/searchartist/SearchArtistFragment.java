@@ -1,16 +1,15 @@
 package com.trifork.ckp.musicartists.searchartist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 
 import com.trifork.ckp.musicartists.MusicArtistsApplication;
 import com.trifork.ckp.musicartists.R;
@@ -19,6 +18,7 @@ import com.trifork.ckp.musicartists.model.ArtistListItem;
 import com.trifork.ckp.musicartists.searchartist.list.ArtistItemListener;
 import com.trifork.ckp.musicartists.searchartist.list.ArtistListPicassoImage;
 import com.trifork.ckp.musicartists.searchartist.list.ArtistsAdapter;
+import com.trifork.ckp.musicartists.viewartist.ViewArtistActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +28,7 @@ import javax.inject.Inject;
 public class SearchArtistFragment extends Fragment implements SearchContract.SearchArtistView, ArtistItemListener {
 
     public static final String TAG = SearchArtistFragment.class.getSimpleName();
+    public final static String ARTIST_MBID = "com.trifork.ckp.musicartists.ARTIST_MBID";
 
     @Inject
     SearchContract.SearchPresenter presenter;
@@ -110,7 +111,9 @@ public class SearchArtistFragment extends Fragment implements SearchContract.Sea
 
     @Override
     public void onArtistClick(ArtistListItem clickedArtist) {
-        Log.d(TAG, "onArtistClick() called with: clickedArtist = [" + clickedArtist + "]");
+        Intent intent = new Intent(getActivity(), ViewArtistActivity.class);
+        intent.putExtra(ARTIST_MBID, clickedArtist.getMbid());
+        startActivity(intent);
     }
 
     @Override
