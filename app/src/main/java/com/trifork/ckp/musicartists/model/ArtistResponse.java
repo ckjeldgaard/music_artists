@@ -1,6 +1,6 @@
 package com.trifork.ckp.musicartists.model;
 
-public final class ArtistResponse {
+public class ArtistResponse {
 
     private final Artist artist;
 
