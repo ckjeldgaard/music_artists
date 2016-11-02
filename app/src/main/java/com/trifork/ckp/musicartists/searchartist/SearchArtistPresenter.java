@@ -22,14 +22,17 @@ public class SearchArtistPresenter implements SearchContract.SearchPresenter, Ca
     @Override
     public void searchArtist() {
         this.view.showLoading();
-        String inp = view.searchInput();
-        this.api.searchArtist(inp).enqueue(this);
+        this.api.searchArtist(view.searchInput()).enqueue(this);
     }
 
     @Override
     public void onResponse(Call<List<ArtistListItem>> call, Response<List<ArtistListItem>> response) {
-        this.view.showResultList(response.body());
-        this.view.showContent();
+        if (response.body() != null) {
+            this.view.showResultList(response.body());
+            this.view.showContent();
+        } else {
+            this.onFailure(call, null);
+        }
     }
 
     @Override

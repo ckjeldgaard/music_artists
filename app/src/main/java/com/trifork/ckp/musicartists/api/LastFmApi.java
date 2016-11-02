@@ -10,9 +10,9 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface LastFmApi {
-    @GET("?method=artist.search&format=json&api_key=4b3207e16b62f1ce0e50e2d6d0e6b391")
+    @GET("?method=artist.search&format=json")
     Call<List<ArtistListItem>> searchArtist(@Query("artist") String artist);
 
-    @GET("?method=artist.getinfo&format=json&api_key=4b3207e16b62f1ce0e50e2d6d0e6b391")
+    @GET("?method=artist.getinfo&format=json")
     Call<ArtistResponse> getArtist(@Query("mbid") String mbid);
 }

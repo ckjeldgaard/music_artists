@@ -3,13 +3,7 @@ package com.trifork.ckp.musicartists.api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.IOException;
-
-import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -21,47 +15,26 @@ public final class LastFmClient {
     public LastFmClient() {
     }
 
-    public LastFmApi getServiceApi(boolean addClient) {
+    public LastFmApi getServiceApi(boolean addResponseInterceptor) {
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                 .create();
-        Retrofit.Builder builder = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson));
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(interceptorClient(addResponseInterceptor))
+                .build();
 
-        if (addClient) {
-            builder.client(interceptorClient());
-        }
-        Retrofit retrofit = builder.build();
         return retrofit.create(LastFmApi.class);
     }
 
-    private OkHttpClient interceptorClient() {
-        return new OkHttpClient.Builder()
-                .addInterceptor(new ApiResponseInterceptor())
-                .build();
-    }
+    private OkHttpClient interceptorClient(boolean addResponseInterceptor) {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        if (addResponseInterceptor) {
+            builder.addInterceptor(new ApiResponseInterceptor());
+        }
+        builder.addInterceptor(new ApiKeyInterceptor(API_KEY));
 
-    private OkHttpClient httpClient() {
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request original = chain.request();
-                HttpUrl originalHttpUrl = original.url();
-
-                HttpUrl url = originalHttpUrl.newBuilder()
-                        .addQueryParameter("api_key", API_KEY)
-                        .build();
-
-                // Request customization: add request headers
-                Request.Builder requestBuilder = original.newBuilder()
-                        .url(url);
-
-                Request request = requestBuilder.build();
-                return chain.proceed(request);
-            }
-        });
-        return httpClient.build();
+        return builder.build();
     }
 }

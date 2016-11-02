@@ -2,6 +2,7 @@ package com.trifork.ckp.musicartists.api;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.trifork.ckp.musicartists.model.SearchResponse;
 
 import java.io.IOException;
@@ -13,8 +14,8 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class ApiResponseInterceptor implements Interceptor {
-    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    public static final Gson GSON = new Gson();
+    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static final Gson GSON = new Gson();
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -24,9 +25,12 @@ public class ApiResponseInterceptor implements Interceptor {
         SearchResponse searchResponse = GSON.fromJson(body.string(), SearchResponse.class);
         body.close();
 
-        JsonArray artists = searchResponse.getResults()
-                .getAsJsonObject("artistmatches")
-                .getAsJsonArray("artist");
+        JsonArray artists = new JsonArray();
+        if (searchResponse.getResults() != null) {
+            artists = searchResponse.getResults()
+                    .getAsJsonObject("artistmatches")
+                    .getAsJsonArray("artist");
+        }
 
         final Response.Builder newResponse = response.newBuilder()
                 .body(ResponseBody.create(JSON, artists.toString()));

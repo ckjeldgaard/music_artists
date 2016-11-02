@@ -72,6 +72,19 @@ public class SearchArtistPresenterTest {
     }
 
     @Test
+    public void testSuccessfulResponseWithEmptyResultGeneratesError() throws Exception {
+        Response<List<ArtistListItem>> mockResponse = Response.success(null);
+
+        when(api.searchArtist(anyString())).thenReturn(call);
+        searchArtistPresenter.searchArtist();
+
+        verify(call).enqueue(callbackCaptor.capture());
+        callbackCaptor.getValue().onResponse(call, mockResponse);
+
+        verify(view).showError(null);
+    }
+
+    @Test
     public void testFailure() throws Exception {
         Throwable throwable = mock(Throwable.class);
 
