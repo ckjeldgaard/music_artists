@@ -1,4 +1,4 @@
-# music_artists
+# MusicArtists
 An experimental Android app querying the Last.fm API using various Android tools.
 
 The app consists of two main screens; one for searching music artists and one for displaying artist information.
