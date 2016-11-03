@@ -53,7 +53,7 @@ public class SearchArtistFragmentTest {
         EditText searchField = (EditText) searchArtistFragment.getView().findViewById(R.id.search_artist_text);
 
         searchField.setText("band");
-        verify(app.mockPresenter()).searchArtist();
+        verify(app.mockSearchPresenter()).searchArtist();
     }
 
     @Test
@@ -64,7 +64,7 @@ public class SearchArtistFragmentTest {
         EditText searchField = (EditText) searchArtistFragment.getView().findViewById(R.id.search_artist_text);
 
         searchField.setText("");
-        verify(app.mockPresenter(), never()).searchArtist();
+        verify(app.mockSearchPresenter(), never()).searchArtist();
     }
 
     @Test
