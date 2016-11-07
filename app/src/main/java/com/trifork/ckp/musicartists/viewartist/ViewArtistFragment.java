@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -18,6 +21,7 @@ import com.trifork.ckp.musicartists.R;
 import com.trifork.ckp.musicartists.injection.DaggerViewArtistComponent;
 import com.trifork.ckp.musicartists.model.Artist;
 import com.trifork.ckp.musicartists.model.ImageSize;
+import com.trifork.ckp.musicartists.searchartist.list.ArtistImage;
 
 import javax.inject.Inject;
 
@@ -29,9 +33,9 @@ public class ViewArtistFragment extends Fragment implements ViewArtistContract.V
     @Inject
     ViewArtistContract.ArtistPresenter presenter;
 
-    private CollapsingToolbarLayout collapsingToolbar;
-    private Toolbar toolbar;
-    private NestedScrollView contentView;
+    private ArtistImage image = new DisplayArtistPicassoImage();
+
+    private RelativeLayout contentView;
     private View loadingView;
     private View errorView;
 
@@ -75,16 +79,11 @@ public class ViewArtistFragment extends Fragment implements ViewArtistContract.V
         loadingView = root.findViewById(R.id.loadingView);
         errorView = root.findViewById(R.id.errorView);
 
-        contentView = (NestedScrollView) root.findViewById(R.id.content);
-        collapsingToolbar = (CollapsingToolbarLayout) root.findViewById(R.id.collapsing_toolbar);
-        toolbar = (Toolbar) root.findViewById(R.id.toolbar);
+        contentView = (RelativeLayout) root.findViewById(R.id.content);
 
         artistImage = (ImageView) root.findViewById(R.id.artist_image);
         bioSummary = (TextView) root.findViewById(R.id.bio_summary);
         bioContent = (TextView) root.findViewById(R.id.bio_content);
-
-        collapsingToolbar.setTitle("Artist");
-        toolbar.setTitle("Artist");
 
         this.presenter.getArtist();
 
@@ -98,20 +97,17 @@ public class ViewArtistFragment extends Fragment implements ViewArtistContract.V
 
     @Override
     public void setArtist(Artist artist) {
-        collapsingToolbar.setTitle(artist.getName());
-        toolbar.setTitle(artist.getName());
-
-        bioSummary.setText(artist.getBio().getSummary());
-        bioContent.setText(artist.getBio().getContent());
-
-        Picasso.with(getContext())
-                .load(artist.getImage(ImageSize.EXTRA_LARGE).getUrl())
-                .into(artistImage);
+        this.image.loadImage(
+                getContext(),
+                artist.getImage(ImageSize.EXTRA_LARGE).getUrl(),
+                artistImage
+        );
+        this.bioSummary.setText(artist.getBio().getSummary());
+        this.bioContent.setText(artist.getBio().getContent());
     }
 
     @Override
     public void showLoading() {
-        collapsingToolbar.setVisibility(View.GONE);
         contentView.setVisibility(View.GONE);
         loadingView.setVisibility(View.VISIBLE);
         errorView.setVisibility(View.GONE);
@@ -119,7 +115,6 @@ public class ViewArtistFragment extends Fragment implements ViewArtistContract.V
 
     @Override
     public void showContent() {
-        collapsingToolbar.setVisibility(View.VISIBLE);
         contentView.setVisibility(View.VISIBLE);
         loadingView.setVisibility(View.GONE);
         errorView.setVisibility(View.GONE);
@@ -127,7 +122,6 @@ public class ViewArtistFragment extends Fragment implements ViewArtistContract.V
 
     @Override
     public void showError(Throwable e) {
-        collapsingToolbar.setVisibility(View.GONE);
         contentView.setVisibility(View.GONE);
         loadingView.setVisibility(View.GONE);
         errorView.setVisibility(View.VISIBLE);

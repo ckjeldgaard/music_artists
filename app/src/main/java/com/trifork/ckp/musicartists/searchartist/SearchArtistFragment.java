@@ -59,7 +59,7 @@ public class SearchArtistFragment extends Fragment implements SearchContract.Sea
                 .build().inject(this);
 
         List<ArtistListItem> items = new ArrayList<>();
-        adapter = new ArtistsAdapter(items, this, new ArtistListPicassoImage(getContext()));
+        adapter = new ArtistsAdapter(items, this, new ArtistListPicassoImage());
 
     }
 

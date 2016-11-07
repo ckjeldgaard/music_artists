@@ -28,5 +28,4 @@ public class SearchArtistActivityTest {
                 is(instanceOf(SearchArtistFragment.class))
         );
     }
-
 }

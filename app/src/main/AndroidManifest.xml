@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".viewartist.ViewArtistActivity"
-            android:theme="@style/AppThemeNoActionBar"
+            android:theme="@style/AppTheme"
             />
     </application>
 

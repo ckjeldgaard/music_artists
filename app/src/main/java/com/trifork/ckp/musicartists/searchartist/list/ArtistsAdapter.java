@@ -42,6 +42,7 @@ public class ArtistsAdapter extends RecyclerView.Adapter<ArtistViewHolder> {
         String url = artist.getImage(ImageSize.MEDIUM).getUrl();
         if (url.length() > 0) {
             artistImage.loadImage(
+                    holder.itemView.getContext(),
                     artist.getImage(ImageSize.MEDIUM).getUrl(),
                     holder.getImageView()
             );
